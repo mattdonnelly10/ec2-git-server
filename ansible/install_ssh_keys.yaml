@@ -1,0 +1,14 @@
+- hosts: "{{ hostname }}"
+  become: true
+  gather_facts: false
+  vars:
+    ssh_keyfile: [ "id_rsa.pub"]
+  tasks:  
+    - name: copy ssh key using ITEM NAME
+      authorized_key:
+        key: "{{ lookup('file', '~/.ssh/'+item) }}"
+        user: "{{ username }}"
+        state: present
+        exclusive: False
+      with_items: 
+        - "{{ ssh_keyfile }}"

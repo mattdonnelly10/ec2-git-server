@@ -1,0 +1,8 @@
+- hosts: "{{ hostname }}"
+  become: true
+  gather_facts: false
+  tasks:
+    - name: create and/or change {{ username}}'s  password
+      user:
+        name: "{{ username }}"
+        password: "{{ upassword | password_hash('sha512') }}"

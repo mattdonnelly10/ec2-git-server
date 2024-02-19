@@ -1,0 +1,17 @@
+- hosts: "{{ hostname }}"
+  become: true
+  gather_facts: False
+  tasks:
+    - name: git init --bare {{ project }} with the command module
+      command: git init --bare {{project}}
+      args:
+        chdir: "{{ git_base_dir }}"
+
+    - name: Set the permissions on {{ git_base_dir }}/{{ project }}
+      file:
+        path: "{{ git_base_dir }}/{{ project }}"
+        state: directory
+        mode: 0755
+        owner: git
+        group: git 
+        recurse: True
